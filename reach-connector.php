@@ -1,0 +1,227 @@
+<?php
+
+/**
+ * @package Reach_Connector
+*/
+/*
+Plugin Name: REACH Connector
+Plugin URI: http://wordpress.org/plugins/reach-connector/
+Description: This plugin enables you to easily integrate your REACH&#8480; campaign and sponsorships with your WordPress site. For more information on REACH&#8480; visit http://www.reachapp.co.
+Author: Sugar Maple Interactive, LLC
+Version: 1.1
+Author URI: http://sugarmapleinteractive.com/code/wordpress/plugins/reach-connector
+Text Domain: reach
+License: GPLv2
+*/
+/*
+Copyright 2015  Sugar Maple Interactive, LLC  (email : support@sugarmapleinteractive.com)
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License, version 2, as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+
+if(!class_exists('Reach_Connector_Plugin')) {
+  class Reach_Connector_Plugin
+  {
+    public function __construct() {
+      // Register WordPress actions for custom plugin
+      add_action('admin_init', array($this, 'admin_init'));
+      add_action('admin_menu', array($this, 'admin_menu'));
+    }
+
+    // Activates WordPress plugin
+    public static function activate() {
+      // does nothing custom
+    }
+
+    // Deactivate the plugin
+    public static function deactivate() {
+      // does nothing custom
+    }
+
+    // Initialize Custom Plugin Settings
+    public function init_settings() {
+      // backend options (invisible to the user) [only creates if non-existent]
+      add_option( 'reach_root_page_id' );
+      add_option( 'reach_campaign_page_id' );
+      // Setting "Keys"
+      register_setting( 'reach-connector', 'reach_api_host' );
+      register_setting( 'reach-connector', 'reach_account_guid' );
+      register_setting( 'reach-connector', 'reach_sponsorship_class' );
+      register_setting( 'reach-connector', 'reach_campaign_class' );
+      // Setting Sections : Section ID, Section Title, Callback, Page ID (Menu Slug)
+      add_settings_section('section-one', 'REACH&#8480; Account Information', array($this, 'text_for_section_one'), 'reach-connector-options' );
+    	// Setting Fields : Filed ID, Field Title, Callback, Page ID (Menu Slug), Section ID
+      add_settings_field( 'reach_api_host', 'Admin URL', array($this, 'field_for_api_host'), 'reach-connector-options', 'section-one' );
+      add_settings_field( 'reach_account_guid', 'Account GUID', array($this, 'field_for_account_guid'), 'reach-connector-options', 'section-one' );
+      add_settings_section('style-section', 'Style Options', array($this, 'text_for_style_section'), 'reach-connector-options' );
+      add_settings_field( 'reach_sponsorship_class', 'Sponsorship CSS Class', array($this, 'field_for_sponsorship_classes'), 'reach-connector-options', 'style-section' );
+      add_settings_field( 'reach_campaign_class', 'Campaign CSS Class', array($this, 'field_for_campaign_classes'), 'reach-connector-options', 'style-section' );
+      add_settings_section('section-two', 'Sponsorship Shortcode Setup', array($this, 'text_for_section_two'), 'reach-connector-options' );
+      add_settings_section('section-three', 'Campaign Shortcode Setup', array($this, 'text_for_section_three'), 'reach-connector-options' );
+    }
+
+    // Hook for WordPress admin_init action
+    public function admin_init() {
+      // Set up the settings for this plugin
+      $this->init_settings();
+    }
+
+    // Hook for WordPress admin_menu action
+    public function admin_menu() {
+      # Page Title, Menu Item, User Capability, Menu Slug (Page ID), Callback
+      add_options_page('REACH&#8480; Connector Options', 'REACH&#8480; Connector',
+        'manage_options', 'reach-connector-options',
+        array($this, 'plugin_settings'));
+    }
+
+    public function plugin_settings() {
+      if(!current_user_can('manage_options'))
+      {
+          wp_die(__('Your account does not have sufficient permissions to manage plugin settings.'));
+      }
+
+      // Render the settings template
+      include(sprintf("%s/templates/settings.php", dirname(__FILE__)));
+    }
+
+    public function setting_section_title() {
+      echo "<p>REACH&#8480; Connector Settings Intro</p>";
+    }
+
+    public function field_for_account_guid() {
+      $setting_value = esc_attr( get_option( 'reach_account_guid' ) );
+      echo "<input class='regular-text' type='text' name='reach_account_guid' value='$setting_value' placeholder='GUID' />";
+    }
+
+    public function field_for_api_host() {
+      $setting_value = esc_attr( get_option( 'reach_api_host' ) );
+      echo "<input class='regular-text' type='text' name='reach_api_host' value='$setting_value' placeholder='domain.reachapp.co' />";
+    }
+    
+    public function field_for_sponsorship_classes() {
+      $setting_value = esc_attr( get_option( 'reach_sponsorship_class' ) );
+      echo "<input class='regular-text' type='text' name='reach_sponsorship_class' value='$setting_value' />";
+    }
+    
+    public function field_for_campaign_classes() {
+      $setting_value = esc_attr( get_option( 'reach_campaign_class' ) );
+      echo "<input class='regular-text' type='text' name='reach_campaign_class' value='$setting_value' />";
+    }
+
+    public function text_for_section_one() {
+    	echo "Enter your REACH&#8480; Admin URL and Account GUID to setup the REACH&#8480; Connector plugin.";
+    }
+    
+    public function text_for_style_section() {
+    	echo "Enter additional CSS classes to use for the sponsorship and campaign widgets. Separate class names with a space.";
+    }
+    
+    public function text_for_section_two() {
+    	echo "To pull a list of sponsorships from REACH&#8480; to display on your site use the shortcode [sponsorships]. You can also pass conditional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:";
+      echo "<p><blockquote>sponsorship_type<br/>location<br/>project<br/>sponsorship_categories<br/>status</blockquote></p>";
+      echo '<p>Example: [sponsorships sponsorship_type="children"]';
+    }
+    
+    public function text_for_section_three() {
+    	echo "To pull a list of campaigns from REACH&#8480; to display on your site use the shortcode [campaigns].";
+    }
+
+  }
+}
+
+function reach_get_sponsorship_json($i) {
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $url = "http://".str_replace($search, '', $reach_api_host)."/sponsorships.json?".http_build_query($i);
+  $json = json_decode(file_get_contents($url));
+	return $json;
+}
+
+function reach_get_campaign_json($i) {
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $url = "http://".str_replace($search, '', $reach_api_host)."/campaigns.json?".http_build_query($i);
+  $json = json_decode(file_get_contents($url));
+	return $json;
+}
+
+function get_sponsorships($atts) {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $reach_sponsorship_class = esc_attr( get_option( 'reach_sponsorship_class' ) );
+  $atts = shortcode_atts( array(
+      'sponsorship_type' => '',
+      'location' => '',
+      'project' => '',
+      'sponsorship_categories' => '',
+      'status' => '',
+  ), $atts, 'sponsorships' );
+  $j = reach_get_sponsorship_json($atts);
+  foreach($j as $k) {
+    echo "<link href='https://".str_replace($search, '', $reach_api_host)."/assets/base.css' media='all' rel='stylesheet' type='text/css' />";
+    echo "<div class='span5 ".$reach_sponsorship_class."'><div id='sponsorship-spot' class='thumbnail' onclick='location.href=\"https://".str_replace($search, '', $reach_api_host)."/sponsorships/".$k->permalink."\";' style='cursor:pointer;'>";
+    echo "<div class='details'><div style='height:225px;overflow:hidden;background-image:url(".$k->images->medium.");background-position:center top;background-size:auto 225px;background-repeat:no-repeat;'></div>";
+    echo "<div class='caption'>";
+    echo "<h3 class='no-margin'>".$k->title."</h3>";
+    echo "<div class='description'>".$k->description."</div>";
+    echo "</div>";
+    echo "<table width='100%'><tbody><tr><td class='status'><span class='alert-text'>".$k->current_shares." of ".$k->total_shares."&nbsp;Shares Sponsored</span></td></tr></tbody></table>";
+    echo "</div></div></div>";
+  }
+}
+
+function get_campaigns() {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $reach_campaign_class = esc_attr( get_option( 'reach_campaign_class' ) );
+  $j = reach_get_campaign_json();
+  foreach($j as $k) {
+    echo "<link href='https://".str_replace($search, '', $reach_api_host)."/assets/base.css' media='all' rel='stylesheet' type='text/css' />";
+    echo "<div class='span5 ".$reach_campaign_class."'><div id='sponsorship-spot' class='thumbnail' onclick='location.href=\"https://".str_replace($search, '', $reach_api_host)."/campaigns/".$k->permalink."\";' style='cursor:pointer;'>";
+    echo "<div class='details'><div style='height:225px;overflow:hidden;background-image:url(".$k->images->small.");background-position:center top;background-size:auto 225px;background-repeat:no-repeat;'></div>";
+    echo "<div class='caption'>";
+    echo "<h3 class='no-margin'>".$k->title."</h3>";
+    echo "<div class='description'>".$k->short_description."</div>";
+    echo "</div>";
+    echo "<table width='100%'><tbody><tr><td style='text-align:left;'>$".round($k->goal_amount, 2)."&nbsp;GOAL</td><td style='text-align:right;'>$".round($k->total, 2)."&nbsp;RAISED</td></tr></tbody></table>";
+    echo "</div></div></div>";
+  }
+}
+
+add_shortcode('sponsorships', 'get_sponsorships');
+add_shortcode('campaigns', 'get_campaigns');
+
+if(class_exists('Reach_Connector_Plugin')) {
+  // WordPress hooks to activate and deactivate the plugin
+  register_activation_hook(__FILE__, array('Reach_Connector_Plugin', 'activate'));
+  register_deactivation_hook(__FILE__, array('Reach_Connector_Plugin', 'deactivate'));
+
+  // instantiate the plugin class
+  $reach_connector_plugin = new Reach_Connector_Plugin();
+}
+
+// Adds link to the plugin settings page on the plugin info page
+if(isset($reach_connector_plugin)) {
+
+  function custom_settings_link($links) {
+    $settings_link = '<a href="options-general.php?page=reach-connector-options">Settings</a>';
+    array_unshift($links, $settings_link);
+    return $links;
+  }
+
+  $plugin = plugin_basename(__FILE__);
+  add_filter("plugin_action_links_$plugin", 'custom_settings_link');
+}
+
+
+?>
