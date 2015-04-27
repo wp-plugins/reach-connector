@@ -8,7 +8,7 @@ Plugin Name: REACH Connector
 Plugin URI: http://wordpress.org/plugins/reach-connector/
 Description: This plugin enables you to easily integrate your REACH&#8480; campaign and sponsorships with your WordPress site. For more information on REACH&#8480; visit http://www.reachapp.co.
 Author: Sugar Maple Interactive, LLC
-Version: 0.2
+Version: 1.3
 Author URI: http://sugarmapleinteractive.com/code/wordpress/plugins/reach-connector
 Text Domain: reach
 License: GPLv2
@@ -189,8 +189,21 @@ function get_campaigns() {
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
+function get_donation_page() {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $reach_campaign_class = esc_attr( get_option( 'reach_campaign_class' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  echo "<iframe id='campaigns-iframe' src='https://".str_replace($search, '', $reach_api_host)."/donations/new?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#campaigns-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+}
+
 add_shortcode('sponsorships', 'get_sponsorships');
 add_shortcode('campaigns', 'get_campaigns');
+add_shortcode('donations', 'get_donation_page');
 
 if(class_exists('Reach_Connector_Plugin')) {
   // WordPress hooks to activate and deactivate the plugin

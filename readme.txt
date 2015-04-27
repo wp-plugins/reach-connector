@@ -2,8 +2,8 @@
 Contributors: David McWilliams, Phi Sanders
 Tags: reach, connector, campaign, charity, child, sponorships, fundraising, donate, sugar, maple, interactive
 Requires at least: 3.1
-Tested up to: 4.1.1
-Stable tag: 0.2
+Tested up to: 4.2.1
+Stable tag: 1.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,15 +22,18 @@ Edit the look of each widget by modifying the HTML attributes in reach-connector
 Yes, you can sign up for a REACH account at http://www.reachapp.co.
 
 == Upgrade Notice ==
-= 0.2 =
+= 1.3 =
 Please upgrade to the latest version to enable new enhancements to the plugin.
 
 == Changelog ==
-= 0.1 =
+= 1.1 =
 * This is the intial release to the public.
 
-= 0.2 =
+= 1.2 =
 * This release switches to a more user-friendly format which provides pagination and filtering for sponsorships and campaigns.
+
+= 1.3 =
+* This release adds the new shortcode "donations" to display the general donation form on any page.
 
 == Usage ==
 To pull a list of sponsorships from REACH to display on your site use the shortcode [sponsorships] on any page. You can also pass conditional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:
@@ -44,3 +47,5 @@ status
 Example: [sponsorships sponsorship_type="children"]
 
 To pull a list of campaigns from REACH to display on your site use the shortcode [campaigns] on any page.
+
+To display the general donation page from REACH on your site use the shortcode [donations] on any page.
