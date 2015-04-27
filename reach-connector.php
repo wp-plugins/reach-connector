@@ -8,13 +8,13 @@ Plugin Name: REACH Connector
 Plugin URI: http://wordpress.org/plugins/reach-connector/
 Description: This plugin enables you to easily integrate your REACH&#8480; campaign and sponsorships with your WordPress site. For more information on REACH&#8480; visit http://www.reachapp.co.
 Author: Sugar Maple Interactive, LLC
-Version: 1.1
+Version: 0.2
 Author URI: http://sugarmapleinteractive.com/code/wordpress/plugins/reach-connector
 Text Domain: reach
 License: GPLv2
 */
 /*
-Copyright 2015  Sugar Maple Interactive, LLC  (email : support@sugarmapleinteractive.com)
+Copyright 2015  Sugar Maple Interactive, LLC  (email : support@reachapp.co)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -160,42 +160,33 @@ function reach_get_campaign_json($i) {
 function get_sponsorships($atts) {
   $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
   $reach_sponsorship_class = esc_attr( get_option( 'reach_sponsorship_class' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
   $atts = shortcode_atts( array(
       'sponsorship_type' => '',
       'location' => '',
       'project' => '',
       'sponsorship_categories' => '',
       'status' => '',
+      'disablenav' => 'true',
   ), $atts, 'sponsorships' );
-  $j = reach_get_sponsorship_json($atts);
-  foreach($j as $k) {
-    echo "<link href='https://".str_replace($search, '', $reach_api_host)."/assets/base.css' media='all' rel='stylesheet' type='text/css' />";
-    echo "<div class='span5 ".$reach_sponsorship_class."'><div id='sponsorship-spot' class='thumbnail' onclick='location.href=\"https://".str_replace($search, '', $reach_api_host)."/sponsorships/".$k->permalink."\";' style='cursor:pointer;'>";
-    echo "<div class='details'><div style='height:225px;overflow:hidden;background-image:url(".$k->images->medium.");background-position:center top;background-size:auto 225px;background-repeat:no-repeat;'></div>";
-    echo "<div class='caption'>";
-    echo "<h3 class='no-margin'>".$k->title."</h3>";
-    echo "<div class='description'>".$k->description."</div>";
-    echo "</div>";
-    echo "<table width='100%'><tbody><tr><td class='status'><span class='alert-text'>".$k->current_shares." of ".$k->total_shares."&nbsp;Shares Sponsored</span></td></tr></tbody></table>";
-    echo "</div></div></div>";
-  }
+  echo "<iframe id='sponsorships-iframe' src='https://".str_replace($search, '', $reach_api_host)."/sponsorships?".http_build_query($atts)."' width='100%' height='2000px' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#sponsorships-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
 function get_campaigns() {
   $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
   $reach_campaign_class = esc_attr( get_option( 'reach_campaign_class' ) );
-  $j = reach_get_campaign_json();
-  foreach($j as $k) {
-    echo "<link href='https://".str_replace($search, '', $reach_api_host)."/assets/base.css' media='all' rel='stylesheet' type='text/css' />";
-    echo "<div class='span5 ".$reach_campaign_class."'><div id='sponsorship-spot' class='thumbnail' onclick='location.href=\"https://".str_replace($search, '', $reach_api_host)."/campaigns/".$k->permalink."\";' style='cursor:pointer;'>";
-    echo "<div class='details'><div style='height:225px;overflow:hidden;background-image:url(".$k->images->small.");background-position:center top;background-size:auto 225px;background-repeat:no-repeat;'></div>";
-    echo "<div class='caption'>";
-    echo "<h3 class='no-margin'>".$k->title."</h3>";
-    echo "<div class='description'>".$k->short_description."</div>";
-    echo "</div>";
-    echo "<table width='100%'><tbody><tr><td style='text-align:left;'>$".round($k->goal_amount, 2)."&nbsp;GOAL</td><td style='text-align:right;'>$".round($k->total, 2)."&nbsp;RAISED</td></tr></tbody></table>";
-    echo "</div></div></div>";
-  }
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  echo "<iframe id='campaigns-iframe' src='https://".str_replace($search, '', $reach_api_host)."/campaigns?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#campaigns-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
 add_shortcode('sponsorships', 'get_sponsorships');
