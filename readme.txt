@@ -1,25 +1,26 @@
 === reach-connector ===
 Contributors: David McWilliams, Phi Sanders
-Tags: reach, connector, campaign, charity, child, sponorships, fundraising, donate, sugar, maple, interactive
+Tags: reach, connector, campaign, charity, child, sponsorships, fundraising, donate, sugar, maple, interactive
 Requires at least: 3.1
 Tested up to: 4.2.1
 Stable tag: 1.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin enables you to easily integrate your REACH campaigns and sponsorships with your WordPress site.
+This plugin enables you to easily integrate your REACH&#8480; campaigns and sponsorships with your WordPress site.
 
 == Description ==
-This plugin enables you to easily integrate your REACH with your WordPress site. Use short codes to embed all sponsorships or campaigns on pages or filter based on short code parameters.
+This plugin enables you to easily integrate your REACH&#8480; site with your WordPress site. Use short codes to embed all sponsorships or campaigns on pages or filter based on short code parameters.
 
 == Installation ==
-Copy the \"reach-connector\" folder and all of it\'s files in to your \"wp-content/plugins\" folder.
-
-Edit the look of each widget by modifying the HTML attributes in reach-connector.php in the methods get_sponsorships and get_campaigns.
+Copy the "reach-connector" folder and all of it's files in to your "wp-content/plugins" folder.
 
 == Frequently Asked Questions ==
 = Does this plugin require a REACH account? =
 Yes, you can sign up for a REACH account at http://www.reachapp.co.
+
+== Support ==
+Please visit http://support.reachapp.co or email support@reachapp.co.
 
 == Upgrade Notice ==
 = 1.3 =
@@ -34,6 +35,9 @@ Please upgrade to the latest version to enable new enhancements to the plugin.
 
 = 1.3 =
 * This release adds the new shortcode "donations" to display the general donation form on any page.
+
+= 1.3.1 =
+* Added documentation to simplify the setup process.
 
 == Usage ==
 To pull a list of sponsorships from REACH to display on your site use the shortcode [sponsorships] on any page. You can also pass conditional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:

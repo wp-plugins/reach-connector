@@ -63,13 +63,14 @@ if(!class_exists('Reach_Connector_Plugin')) {
       // Setting Sections : Section ID, Section Title, Callback, Page ID (Menu Slug)
       add_settings_section('section-one', 'REACH&#8480; Account Information', array($this, 'text_for_section_one'), 'reach-connector-options' );
     	// Setting Fields : Filed ID, Field Title, Callback, Page ID (Menu Slug), Section ID
-      add_settings_field( 'reach_api_host', 'Admin URL', array($this, 'field_for_api_host'), 'reach-connector-options', 'section-one' );
+      add_settings_field( 'reach_api_host', 'REACH&#8480; Account URL', array($this, 'field_for_api_host'), 'reach-connector-options', 'section-one' );
       add_settings_field( 'reach_account_guid', 'Account GUID', array($this, 'field_for_account_guid'), 'reach-connector-options', 'section-one' );
       add_settings_section('style-section', 'Style Options', array($this, 'text_for_style_section'), 'reach-connector-options' );
       add_settings_field( 'reach_sponsorship_class', 'Sponsorship CSS Class', array($this, 'field_for_sponsorship_classes'), 'reach-connector-options', 'style-section' );
       add_settings_field( 'reach_campaign_class', 'Campaign CSS Class', array($this, 'field_for_campaign_classes'), 'reach-connector-options', 'style-section' );
       add_settings_section('section-two', 'Sponsorship Shortcode Setup', array($this, 'text_for_section_two'), 'reach-connector-options' );
       add_settings_section('section-three', 'Campaign Shortcode Setup', array($this, 'text_for_section_three'), 'reach-connector-options' );
+      add_settings_section('section-four', 'Donation Shortcode Setup', array($this, 'text_for_section_four'), 'reach-connector-options' );
     }
 
     // Hook for WordPress admin_init action
@@ -121,7 +122,7 @@ if(!class_exists('Reach_Connector_Plugin')) {
     }
 
     public function text_for_section_one() {
-    	echo "Enter your REACH&#8480; Admin URL and Account GUID to setup the REACH&#8480; Connector plugin.";
+    	echo "Enter your REACH&#8480; Account URL and Account GUID to setup the REACH&#8480; Connector plugin.";
     }
     
     public function text_for_style_section() {
@@ -136,6 +137,10 @@ if(!class_exists('Reach_Connector_Plugin')) {
     
     public function text_for_section_three() {
     	echo "To pull a list of campaigns from REACH&#8480; to display on your site use the shortcode [campaigns].";
+    }
+    
+    public function text_for_section_four() {
+    	echo "To display the general donation page from REACH&#8480; on your site use the shortcode [donations] on any page.";
     }
 
   }
