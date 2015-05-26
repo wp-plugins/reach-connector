@@ -60,6 +60,7 @@ To display a donation page from REACH&#8480; on your site use the shortcode [don
 amount
 fixed_amount
 recurring
+fixed_recurring (true/false)
 referral
 
 Example: [donations amount="50"]
