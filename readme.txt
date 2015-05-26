@@ -2,8 +2,8 @@
 Contributors: David McWilliams, Phi Sanders
 Tags: reach, connector, campaign, charity, child, sponsorships, fundraising, donate, sugar, maple, interactive
 Requires at least: 3.1
-Tested up to: 4.2.1
-Stable tag: 1.3
+Tested up to: 4.2.2
+Stable tag: 1.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,8 +39,11 @@ Please upgrade to the latest version to enable new enhancements to the plugin.
 = 1.3.1 =
 * Added documentation to simplify the setup process.
 
+= 1.4 =
+* This release adds optional parameters to customize the donations shortcode.
+
 == Usage ==
-To pull a list of sponsorships from REACH to display on your site use the shortcode [sponsorships] on any page. You can also pass conditional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:
+To pull a list of sponsorships from REACH to display on your site use the shortcode [sponsorships] on any page. You can also pass optional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:
 
 sponsorship_type
 location
@@ -52,4 +55,11 @@ Example: [sponsorships sponsorship_type="children"]
 
 To pull a list of campaigns from REACH to display on your site use the shortcode [campaigns] on any page.
 
-To display the general donation page from REACH on your site use the shortcode [donations] on any page.
+To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting price, recurring period, purpose etc.
+
+amount
+fixed_amount
+recurring
+referral
+
+Example: [donations amount="50"]

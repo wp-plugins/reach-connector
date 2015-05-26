@@ -8,7 +8,7 @@ Plugin Name: REACH Connector
 Plugin URI: http://wordpress.org/plugins/reach-connector/
 Description: This plugin enables you to easily integrate your REACH&#8480; campaign and sponsorships with your WordPress site. For more information on REACH&#8480; visit http://www.reachapp.co.
 Author: Sugar Maple Interactive, LLC
-Version: 1.3
+Version: 1.4
 Author URI: http://sugarmapleinteractive.com/code/wordpress/plugins/reach-connector
 Text Domain: reach
 License: GPLv2
@@ -130,7 +130,7 @@ if(!class_exists('Reach_Connector_Plugin')) {
     }
     
     public function text_for_section_two() {
-    	echo "To pull a list of sponsorships from REACH&#8480; to display on your site use the shortcode [sponsorships]. You can also pass conditional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:";
+    	echo "To pull a list of sponsorships from REACH&#8480; to display on your site use the shortcode [sponsorships]. You can also pass optional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:";
       echo "<p><blockquote>sponsorship_type<br/>location<br/>project<br/>sponsorship_categories<br/>status</blockquote></p>";
       echo '<p>Example: [sponsorships sponsorship_type="children"]';
     }
@@ -140,7 +140,9 @@ if(!class_exists('Reach_Connector_Plugin')) {
     }
     
     public function text_for_section_four() {
-    	echo "To display the general donation page from REACH&#8480; on your site use the shortcode [donations] on any page.";
+    	echo "To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting price, recurring period, purpose etc.";
+      echo "<p><blockquote>amount<br/>fixed_amount (true/false)<br/>recurring<br/>fixed_recurring (true/false)<br/>referral</blockquote></p>";
+      echo '<p>Example: [donations amount="50"]';
     }
 
   }
@@ -194,15 +196,23 @@ function get_campaigns() {
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
-function get_donation_page() {
+function get_donation_page($atts) {
   $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
   $reach_campaign_class = esc_attr( get_option( 'reach_campaign_class' ) );
   $search  = array('https://', 'http://');
   $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
-  echo "<iframe id='campaigns-iframe' src='https://".str_replace($search, '', $reach_api_host)."/donations/new?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  $atts = shortcode_atts( array(
+      'amount' => '',
+      'fixed_amount' => '',
+      'recurring' => '',
+      'fixed_recurring' => '',
+      'referral' => '',
+      'disablenav' => 'true',
+  ), $atts, 'sponsorships' );
+  echo "<iframe id='donations-iframe' src='https://".str_replace($search, '', $reach_api_host)."/donations/new?".http_build_query($atts)."' width='100%' scrolling='no' frameborder='0'></iframe>";
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
-  echo '<script>$("#campaigns-iframe").iFrameResize();</script>';
+  echo '<script>$("#donations-iframe").iFrameResize();</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
