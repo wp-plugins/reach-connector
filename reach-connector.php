@@ -140,7 +140,7 @@ if(!class_exists('Reach_Connector_Plugin')) {
     }
     
     public function text_for_section_four() {
-    	echo "To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting price, recurring period, purpose etc.";
+    	echo "To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting amount, recurring period, purpose etc.";
       echo "<p><blockquote>amount<br/>fixed_amount (true/false)<br/>recurring<br/>fixed_recurring (true/false)<br/>referral</blockquote></p>";
       echo '<p>Example: [donations amount="50"]';
     }
