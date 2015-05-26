@@ -58,8 +58,9 @@ To pull a list of campaigns from REACH to display on your site use the shortcode
 To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting price, recurring period, purpose etc.
 
 amount
-fixed_amount
+fixed_amount (true/false)
 recurring
+fixed_amount (true/false)
 referral
 
 Example: [donations amount="50"]
