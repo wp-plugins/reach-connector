@@ -175,6 +175,7 @@ function get_sponsorships($atts) {
       'project' => '',
       'sponsorship_categories' => '',
       'status' => '',
+      'hide_filters' => '',
       'disablenav' => 'true',
   ), $atts, 'sponsorships' );
   echo "<iframe id='sponsorships-iframe' src='https://".str_replace($search, '', $reach_api_host)."/sponsorships?".http_build_query($atts)."' width='100%' height='2000px' scrolling='no' frameborder='0'></iframe>";

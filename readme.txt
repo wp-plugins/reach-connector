@@ -50,6 +50,7 @@ location
 project
 sponsorship_categories
 status
+hide_filters (true/false)
 
 Example: [sponsorships sponsorship_type="children"]
 
