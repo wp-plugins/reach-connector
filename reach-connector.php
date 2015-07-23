@@ -8,7 +8,7 @@ Plugin Name: REACH Connector
 Plugin URI: http://wordpress.org/plugins/reach-connector/
 Description: This plugin enables you to easily integrate your REACH&#8480; campaign and sponsorships with your WordPress site. For more information on REACH&#8480; visit http://www.reachapp.co.
 Author: Sugar Maple Interactive, LLC
-Version: 1.4
+Version: 1.5
 Author URI: http://sugarmapleinteractive.com/code/wordpress/plugins/reach-connector
 Text Domain: reach
 License: GPLv2
@@ -69,8 +69,13 @@ if(!class_exists('Reach_Connector_Plugin')) {
       add_settings_field( 'reach_sponsorship_class', 'Sponsorship CSS Class', array($this, 'field_for_sponsorship_classes'), 'reach-connector-options', 'style-section' );
       add_settings_field( 'reach_campaign_class', 'Campaign CSS Class', array($this, 'field_for_campaign_classes'), 'reach-connector-options', 'style-section' );
       add_settings_section('section-two', 'Sponsorship Shortcode Setup', array($this, 'text_for_section_two'), 'reach-connector-options' );
-      add_settings_section('section-three', 'Campaign Shortcode Setup', array($this, 'text_for_section_three'), 'reach-connector-options' );
-      add_settings_section('section-four', 'Donation Shortcode Setup', array($this, 'text_for_section_four'), 'reach-connector-options' );
+      add_settings_section('section-three', 'Campaigns Shortcode Setup', array($this, 'text_for_section_three'), 'reach-connector-options' );
+      add_settings_section('section-four', 'Campaign Page Shortcode Setup', array($this, 'text_for_section_four'), 'reach-connector-options' );
+      add_settings_section('section-five', 'Donation Shortcode Setup', array($this, 'text_for_section_five'), 'reach-connector-options' );
+      add_settings_section('section-six', 'Projects Shortcode Setup', array($this, 'text_for_section_six'), 'reach-connector-options' );
+      add_settings_section('section-seven', 'Project Page Shortcode Setup', array($this, 'text_for_section_seven'), 'reach-connector-options' );
+      add_settings_section('section-eight', 'Places Shortcode Setup', array($this, 'text_for_section_eight'), 'reach-connector-options' );
+      add_settings_section('section-nine', 'Place Page Shortcode Setup', array($this, 'text_for_section_nine'), 'reach-connector-options' );
     }
 
     // Hook for WordPress admin_init action
@@ -140,11 +145,30 @@ if(!class_exists('Reach_Connector_Plugin')) {
     }
     
     public function text_for_section_four() {
+    	echo "To pull a specific campaign from REACH&#8480; to display on your site use the shortcode with the permalink shown in REACH&#8480; [campaign permalink='my-campaign-permalink'].";
+    }
+    
+    public function text_for_section_five() {
     	echo "To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting amount, recurring period, purpose etc.";
       echo "<p><blockquote>amount<br/>fixed_amount (true/false)<br/>recurring<br/>fixed_recurring (true/false)<br/>referral</blockquote></p>";
       echo '<p>Example: [donations amount="50"]';
     }
-
+    
+    public function text_for_section_six() {
+    	echo "To pull a list of projects from REACH&#8480; to display on your site use the shortcode [projects].";
+    }
+    
+    public function text_for_section_seven() {
+    	echo "To pull a specific project from REACH&#8480; to display on your site use the shortcode with the permalink shown in REACH&#8480; [project permalink='my-project-permalink'].";
+    }
+    
+    public function text_for_section_eight() {
+    	echo "To pull a list of places from REACH&#8480; to display on your site use the shortcode [places].";
+    }
+    
+    public function text_for_section_nine() {
+    	echo "To pull a specific place from REACH&#8480; to display on your site use the shortcode with the permalink shown in REACH&#8480; [place permalink='my-place-permalink'].";
+    }
   }
 }
 
@@ -197,6 +221,73 @@ function get_campaigns() {
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
+function get_projects() {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  echo "<iframe id='projects-iframe' src='https://".str_replace($search, '', $reach_api_host)."/projects?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#projects-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+}
+
+function get_places() {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  echo "<iframe id='places-iframe' src='https://".str_replace($search, '', $reach_api_host)."/places?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#places-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+}
+
+function get_project_page($atts) {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $atts = shortcode_atts( array(
+      'permalink' => '',
+      'disablenav' => 'true',
+  ), $atts, 'sponsorships' );
+  echo "<iframe id='projects-iframe' src='https://".str_replace($search, '', $reach_api_host)."/projects/".$atts['permalink']."?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#projects-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+}
+
+function get_place_page($atts) {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $atts = shortcode_atts( array(
+      'permalink' => '',
+      'disablenav' => 'true',
+  ), $atts, 'sponsorships' );
+  echo "<iframe id='places-iframe' src='https://".str_replace($search, '', $reach_api_host)."/places/".$atts['permalink']."?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#places-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+}
+
+function get_campaign_page($atts) {
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $search  = array('https://', 'http://');
+  $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
+  $atts = shortcode_atts( array(
+      'permalink' => '',
+      'disablenav' => 'true',
+  ), $atts, 'sponsorships' );
+  echo "<iframe id='campaigns-iframe' src='https://".str_replace($search, '', $reach_api_host)."/campaigns/".$atts['permalink']."?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
+  echo '<script>$("#campaigns-iframe").iFrameResize();</script>';
+  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+}
+
 function get_donation_page($atts) {
   $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
   $reach_campaign_class = esc_attr( get_option( 'reach_campaign_class' ) );
@@ -219,6 +310,11 @@ function get_donation_page($atts) {
 
 add_shortcode('sponsorships', 'get_sponsorships');
 add_shortcode('campaigns', 'get_campaigns');
+add_shortcode('campaign', 'get_campaign_page');
+add_shortcode('projects', 'get_projects');
+add_shortcode('project', 'get_project_page');
+add_shortcode('places', 'get_places');
+add_shortcode('place', 'get_place_page');
 add_shortcode('donations', 'get_donation_page');
 
 if(class_exists('Reach_Connector_Plugin')) {

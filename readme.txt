@@ -2,8 +2,8 @@
 Contributors: David McWilliams, Phi Sanders
 Tags: reach, connector, campaign, charity, child, sponsorships, fundraising, donate, sugar, maple, interactive
 Requires at least: 3.1
-Tested up to: 4.2.2
-Stable tag: 1.4
+Tested up to: 4.2.3
+Stable tag: 1.5
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,26 +42,45 @@ Please upgrade to the latest version to enable new enhancements to the plugin.
 = 1.4 =
 * This release adds optional parameters to customize the donations shortcode.
 
-== Usage ==
-To pull a list of sponsorships from REACH to display on your site use the shortcode [sponsorships] on any page. You can also pass optional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:
+= 1.5 =
+* This release adds shortcodes for projects, places, and individual pages for projects, places, and campaigns.
 
+== Usage ==
+Sponsorship Shortcode Setup
+
+To pull a list of sponsorships from REACH℠ to display on your site use the shortcode [sponsorships]. You can also pass optional parameters to filter your sponsorship results similar to the dropdown filters on the Sponsorships page using the parameters:
 sponsorship_type
 location
 project
 sponsorship_categories
 status
-hide_filters (true/false)
-
 Example: [sponsorships sponsorship_type="children"]
 
-To pull a list of campaigns from REACH to display on your site use the shortcode [campaigns] on any page.
+Campaigns Shortcode Setup
 
-To display a donation page from REACH&#8480; on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting amount, recurring period, purpose etc.
+To pull a list of campaigns from REACH℠ to display on your site use the shortcode [campaigns].
+Campaign Page Shortcode Setup
 
+To pull a specific campaign from REACH℠ to display on your site use the shortcode with the permalink shown in REACH℠ [campaign permalink='my-campaign-permalink'].
+Donation Shortcode Setup
+
+To display a donation page from REACH℠ on your site use the shortcode [donations] on any page. You can also pass optional paramters defined in the Giving Options page in REACH to customize the donation form by setting amount, recurring period, purpose etc.
 amount
 fixed_amount (true/false)
 recurring
 fixed_recurring (true/false)
 referral
-
 Example: [donations amount="50"]
+
+Projects Shortcode Setup
+
+To pull a list of projects from REACH℠ to display on your site use the shortcode [projects].
+Project Page Shortcode Setup
+
+To pull a specific project from REACH℠ to display on your site use the shortcode with the permalink shown in REACH℠ [project permalink='my-project-permalink'].
+Places Shortcode Setup
+
+To pull a list of places from REACH℠ to display on your site use the shortcode [places].
+Place Page Shortcode Setup
+
+To pull a specific place from REACH℠ to display on your site use the shortcode with the permalink shown in REACH℠ [place permalink='my-place-permalink'].
