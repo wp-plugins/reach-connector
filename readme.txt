@@ -3,7 +3,7 @@ Contributors: David McWilliams, Phi Sanders
 Tags: reach, connector, campaign, charity, child, sponsorships, fundraising, donate, sugar, maple, interactive
 Requires at least: 3.1
 Tested up to: 4.2.3
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Please upgrade to the latest version to enable new enhancements to the plugin.
 
 = 1.5 =
 * This release adds shortcodes for projects, places, and individual pages for projects, places, and campaigns.
+
+= 1.6 =
+* Bug fix when accounts are using their own sub-domain on REACH.
 
 == Usage ==
 Sponsorship Shortcode Setup
