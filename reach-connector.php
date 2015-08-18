@@ -8,7 +8,7 @@ Plugin Name: REACH Connector
 Plugin URI: http://wordpress.org/plugins/reach-connector/
 Description: This plugin enables you to easily integrate your REACH&#8480; campaign and sponsorships with your WordPress site. For more information on REACH&#8480; visit http://www.reachapp.co.
 Author: Sugar Maple Interactive, LLC
-Version: 1.6
+Version: 1.7
 Author URI: http://sugarmapleinteractive.com/code/wordpress/plugins/reach-connector
 Text Domain: reach
 License: GPLv2
@@ -206,6 +206,7 @@ function get_sponsorships($atts) {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#sponsorships-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#sponsorships-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
@@ -215,10 +216,11 @@ function get_campaigns() {
   $search  = array('https://', 'http://');
   $reach_api_host = esc_attr( get_option( 'reach_api_host' ) );
   echo "<iframe id='campaigns-iframe' src='https://".str_replace($search, '', $reach_api_host)."/campaigns?disablenav=true' width='100%' scrolling='no' frameborder='0'></iframe>";
-  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
-  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
-  echo '<script>$("#campaigns-iframe").iFrameResize({checkOrigin:false});</script>';
-  echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
+  echo '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+  echo "<script type='text/javascript' src='http://www.reachapp.co/assets/14/iframeResizer.min.js'></script>";
+  echo '<script>$("#campaigns-iframe").iFrameResize({checkOrigin:false,scrollCallback:(0,0)});</script>';
+  echo '<script>$("#campaigns-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
+  echo "<script type='text/javascript' src='http://www.reachapp.co/assets/14/iframeResizer.contentWindow.min.js'></script>";
 }
 
 function get_projects() {
@@ -229,6 +231,7 @@ function get_projects() {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#projects-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#projects-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
@@ -240,6 +243,7 @@ function get_places() {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#places-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#places-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
@@ -255,6 +259,7 @@ function get_project_page($atts) {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#projects-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#projects-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
@@ -270,6 +275,7 @@ function get_place_page($atts) {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#places-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#places-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
@@ -285,6 +291,7 @@ function get_campaign_page($atts) {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#campaigns-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#campaigns-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 
@@ -305,6 +312,7 @@ function get_donation_page($atts) {
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.min.js'></script>";
   echo '<script>$("#donations-iframe").iFrameResize({checkOrigin:false});</script>';
+  echo '<script>$("#donations-iframe").on("load", function () {parent.scrollTo(0,0)});</script>';
   echo "<script type='text/javascript' src='https://".str_replace($search, '', $reach_api_host)."/assets/iframeResizer.contentWindow.min.js'></script>";
 }
 

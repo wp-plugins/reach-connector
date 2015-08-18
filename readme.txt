@@ -48,6 +48,9 @@ Please upgrade to the latest version to enable new enhancements to the plugin.
 = 1.6 =
 * Bug fix when accounts are using their own sub-domain on REACH.
 
+= 1.7 =
+* Scroll to the top of the page when a user clicks a link in the content.
+
 == Usage ==
 Sponsorship Shortcode Setup
 
